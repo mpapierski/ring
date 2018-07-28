@@ -99,13 +99,16 @@ mod bssl;
 #[macro_use]
 mod polyfill;
 
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 pub mod aead;
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 pub mod agreement;
 
 #[cfg(feature = "use_heap")]
 mod bits;
 
 mod c;
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 mod chacha;
 pub mod constant_time;
 
@@ -113,21 +116,28 @@ pub mod constant_time;
 pub mod der;
 
 pub mod digest;
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 mod ec;
 pub mod error;
 pub mod hkdf;
 pub mod hmac;
 mod init;
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 mod limb;
 pub mod pbkdf2;
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 mod pkcs8;
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 mod poly1305;
 pub mod rand;
 
 #[cfg(feature = "use_heap")]
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 mod rsa;
 
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 pub mod signature;
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 mod signature_impl;
 
 #[cfg(any(feature = "use_heap", test))]

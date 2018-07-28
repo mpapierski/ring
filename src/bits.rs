@@ -60,4 +60,5 @@ impl BitLength {
     }
 }
 
+#[allow(dead_code)]
 pub const ONE: BitLength = BitLength(1);

@@ -17,8 +17,12 @@ pub fn init_once() {
     #[cfg(not(target_os = "ios"))]
     {
         use std;
-        extern { fn GFp_cpuid_setup(); }
         static INIT: std::sync::Once = std::sync::ONCE_INIT;
-        INIT.call_once(|| unsafe { GFp_cpuid_setup() });
+        INIT.call_once(|| {
+            if cfg!(not(any(target_arch = "mips", target_arch = "mips64"))) {
+                extern { fn GFp_cpuid_setup(); }
+                unsafe { GFp_cpuid_setup() }
+            }
+        });
     }
 }

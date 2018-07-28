@@ -14,6 +14,7 @@
 
 use {c, error};
 
+#[allow(dead_code)]
 pub fn map_result(bssl_result: c::int) -> Result<(), error::Unspecified> {
     match bssl_result {
         1 => Ok(()),

@@ -35,6 +35,12 @@ macro_rules! u32x2 {
     ( ((($second as u64) << 32) | ($first as u64)) )
 }
 
+#[cfg(target_endian = "big")]
+macro_rules! u32x2 {
+    ( $first:expr, $second:expr ) =>
+    ( ((($second as u64) << 32) | ($first as u64)) )
+}
+
 mod sha1;
 
 /// A context for multi-step (Init-Update-Finish) digest calculations.

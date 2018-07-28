@@ -21,6 +21,7 @@ use core;
 // reference.
 #[cfg(feature = "use_heap")]
 #[inline(always)]
+#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 pub fn ref_from_mut_ref<'a, T: ?Sized>(x: &'a mut T) -> &'a T { x }
 
 #[inline(always)]
@@ -48,6 +49,7 @@ pub mod slice {
     }
 
     #[inline(always)]
+    #[allow(dead_code)]
     pub fn u32_from_le_u8(buffer: &[u8; 4]) -> u32 {
         u32::from(buffer[0]) |
         u32::from(buffer[1]) << 8 |
@@ -83,6 +85,7 @@ pub mod slice {
 
     // https://internals.rust-lang.org/t/safe-trasnsmute-for-slices-e-g-u64-u32-particularly-simd-types/2871
     #[inline(always)]
+    #[allow(dead_code)]
     pub fn u64_as_u8_mut(src: &mut [u64]) -> &mut [u8] {
         unsafe {
             core::slice::from_raw_parts_mut(src.as_mut_ptr() as *mut u8,
