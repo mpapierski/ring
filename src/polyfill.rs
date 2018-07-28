@@ -41,6 +41,7 @@ pub mod slice {
     use core;
 
     #[inline(always)]
+    #[allow(dead_code)]
     pub fn u32_from_be_u8(buffer: &[u8; 4]) -> u32 {
         u32::from(buffer[0]) << 24 |
         u32::from(buffer[1]) << 16 |
@@ -141,6 +142,7 @@ pub mod slice {
 
 /// Returns a reference to the elements of `$slice` as an array, verifying that
 /// the slice is of length `$len`.
+#[allow(unused_macros)]
 macro_rules! slice_as_array_ref {
     ($slice:expr, $len:expr) => {
         {

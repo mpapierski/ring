@@ -13,6 +13,7 @@
 // OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 // CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+use polyfill::slice::as_wrapping_mut;
 use {c, polyfill};
 use core;
 use core::num::Wrapping;
@@ -50,17 +51,42 @@ pub unsafe extern fn block_data_order(state: &mut State,
     block_data_order_safe(state, blocks)
 }
 
+fn convert<T>(input: &[u8]) -> &T {
+    unsafe { &*(input.as_ptr() as *const T) }
+}
+
 fn block_data_order_safe(state: &mut State, blocks: &[[u8; BLOCK_LEN]]) {
     let state = polyfill::slice::u64_as_u32_mut(state);
-    let state = polyfill::slice::as_wrapping_mut(state);
+    let state = as_wrapping_mut(state);
     let state = &mut state[..CHAINING_WORDS];
     let state = slice_as_array_ref_mut!(state, CHAINING_WORDS).unwrap();
 
     let mut w: [W32; 80] = [Wrapping(0); 80];
     for block in blocks {
         for t in 0..16 {
-            let word = slice_as_array_ref!(&block[t * 4..][..4], 4).unwrap();
-            w[t] = Wrapping(polyfill::slice::u32_from_be_u8(word))
+            // let mut chunk : [u8; 4] = &;
+            let mut word: [u8; 4] = Default::default();
+            word.copy_from_slice(&block[t * 4..][..4]);
+            let word : &u32 = convert(&word);
+            let word : u32 = if cfg!(target_endian="big") {
+                *word
+            }
+            else {
+                u32_swap!(*word)
+                // *word
+            };
+            // if (target. )
+            // let word = u32_swap!(word);
+            // let mut word = slice_as_array_ref!(word, 4).unwrap();
+            // let word : u32 = unsafe {
+            //     core::slice::from_raw_parts(
+            //         word.as_mut_ptr() as *u32, src.len())
+            // };
+            // let mut word : u32 = as_wrapping_mut(word);
+            // let mut t: u32 = mem::uninitialized();
+            // ptr::copy_nonoverlapping(x, &mut t, 1);
+            // w[t] = Wrapping((u32_swap!(polyfill::slice::u32_from_be_u8(word)));
+            w[t] = Wrapping(word);
         }
         for t in 16..80 {
             let wt = w[t - 3] ^ w[t - 8] ^ w[t - 14] ^ w[t - 16];

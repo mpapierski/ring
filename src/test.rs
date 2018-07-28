@@ -542,11 +542,41 @@ pub mod rand {
 #[cfg(test)]
 mod tests {
     use {error, test};
+    use std::vec::Vec;
+
+    #[test]
+    fn reader_tests() {
+        let mut values = Vec::new();
+        test::from_file("./third_party/NIST/SHAVS/SHA1ShortMsg.rsp", |section, test_case| {
+            if section != "L = 20" {
+                return Err(error::Unspecified)
+            }
+            let len = test_case.consume_usize("Len");
+            let msg = test_case.consume_bytes("Msg");
+            let md = test_case.consume_bytes("MD");
+            values.push((len, msg, md));
+            Ok(())
+        });
+        
+        assert_eq!(values[0].0, 0);
+        assert_eq!(values[0].1, [0]);
+        assert_eq!(values[0].2, [218, 57, 163, 238, 94, 107, 75, 13, 50, 85, 191, 239, 149, 96, 24, 144, 175, 216, 7, 9]);
+
+        assert_eq!(values[1].0, 8);
+        assert_eq!(values[1].1, [0x36]);
+        assert_eq!(values[1].2, [193, 223, 217, 110, 234, 140, 194, 182, 39, 133, 39, 91, 202, 56, 172, 38, 18, 86, 226, 120]);
+
+        assert_eq!(values[64].0, 512);
+        assert_eq!(values[64].1, vec![0x45, 0x92, 0x7e, 0x32, 0xdd, 0xf8, 0x01, 0xca, 0xf3, 0x5e, 0x18, 0xe7, 0xb5, 0x07, 0x8b, 0x7f, 0x54, 0x35, 0x27, 0x82, 0x12, 0xec, 0x6b, 0xb9, 0x9d, 0xf8, 0x84, 0xf4, 0x9b, 0x32, 0x7c, 0x64, 0x86, 0xfe, 0xae, 0x46, 0xba, 0x18, 0x7d, 0xc1, 0xcc, 0x91, 0x45,0x12, 0x1e, 0x14, 0x92, 0xe6, 0xb0, 0x6e, 0x90, 0x07, 0x39, 0x4d, 0xc3, 0x3b, 0x77, 0x48, 0xf8, 0x6a, 0xc3, 0x20, 0x7c, 0xfe]);
+        assert_eq!(values[64].2, vec![0xa7, 0x0c, 0xfb, 0xfe, 0x75, 0x63, 0xdd, 0x0e, 0x66, 0x5c, 0x7c, 0x67, 0x15, 0xa9, 0x6a, 0x8d, 0x75, 0x69, 0x50, 0xc0]);
+        
+    }
 
     #[test]
     fn one_ok() {
         test::from_file("src/test_1_tests.txt", |_, test_case| {
-            let _ = test_case.consume_string("Key");
+            let value = test_case.consume_string("Key");
+            assert_eq!(value, "Value");
             Ok(())
         });
     }

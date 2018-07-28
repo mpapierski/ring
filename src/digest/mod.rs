@@ -38,7 +38,24 @@ macro_rules! u32x2 {
 #[cfg(target_endian = "big")]
 macro_rules! u32x2 {
     ( $first:expr, $second:expr ) =>
-    ( ((($second as u64) << 32) | ($first as u64)) )
+    ( ((($first as u64) << 32) | ($second as u64)) )
+}
+
+#[allow(unused_macros)]
+macro_rules! u32_swap {
+    ( $first:expr ) => 
+    (
+        ($first >> 24) |
+        (($first >>  8) & 0x0000FF00) |
+        (($first <<  8) & 0x00FF0000) |
+        ($first << 24)
+    )
+}
+
+#[test]
+fn swap_test() {
+    assert_eq!(u32_swap!(704643072u32), 42);
+    assert_eq!(u32_swap!(42), 704643072u32);
 }
 
 mod sha1;
@@ -292,6 +309,7 @@ pub struct Algorithm {
     id: AlgorithmID,
 }
 
+
 #[derive(Debug, Eq, PartialEq)]
 enum AlgorithmID {
     SHA1,
@@ -320,9 +338,45 @@ pub static SHA1: Algorithm = Algorithm {
     block_data_order: sha1::block_data_order,
     format_output: sha256_format_output,
     initial_state: [
+        // 17279655951921914625u64,
+        // 1167088121787636990u64,
+        // 3285377520u64,
+        // 17279655951921914625u64,
+        // 1167088121787636990u64,
+        // 3285377520u64,
+
+        // 7441392450524785545u64,
+        // 11005351623184766070u64,
+        // 14110589003413585920u64,
+
+        // 81985529216486895u64,
+        // 18364758544493064720u64,
+        // 17357386173823057920u64,
+
+// precomputed
+// 17279655951921914625u64,
+// 1167088121787636990u64,
+// 3285377520u64,
+// 81985529216486895,
+
+// 7441392450524785545
+// 11005351623184766070
+// 14110589003413585920
+
+        // 7441392450524785545u64,
+        // 11005351623184766070u64,
+        // 14110589003413585920u64,
+
+
+        // u32x2!(0x67452301u32, 0xefcdab89u32),
+        // u32x2!(0x98badcfeu32, 0x10325476u32),
+        // u32x2!(0xc3d2e1f0u32, 0u32),
+
         u32x2!(0x67452301u32, 0xefcdab89u32),
         u32x2!(0x98badcfeu32, 0x10325476u32),
         u32x2!(0xc3d2e1f0u32, 0u32),
+
+        
         0, 0, 0, 0, 0,
     ],
     id: AlgorithmID::SHA1,
