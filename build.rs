@@ -52,6 +52,7 @@ const AARCH64: &'static str = "aarch64";
 const ARM: &'static str = "arm";
 const MIPS: &'static str = "mips";
 const MIPS64: &'static str = "mips64";
+const MIPSEL: &'static str = "mipsel";
 const NEVER: &'static str = "Don't ever build this file.";
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
@@ -125,7 +126,7 @@ const RING_SRCS: &'static [(&'static [&'static str], &'static str)] = &[
     (&[AARCH64], SHA512_ARMV8),
 
     // (&[MIPS], "crypto/fipsmodule/aes/asm/aes-mips.pl"),
-    (&[MIPS, MIPS64], SHA512_MIPS),
+    (&[MIPS, MIPS64, MIPSEL], SHA512_MIPS),
 ];
 
 const SHA256_X86_64: &'static str = "crypto/fipsmodule/sha/asm/sha256-x86_64.pl";
@@ -267,7 +268,7 @@ const ASM_TARGETS:
     ("arm", Some("ios"), "ios32"),
     ("arm", None, "linux32"),
     ("mips", None, "linux32"),
-    ("mips64", None, "linux64")
+    ("mips64", None, "64")
 ];
 
 const WINDOWS: &'static str = "windows";
@@ -611,7 +612,9 @@ fn yasm(file: &Path, arch: &str, out_file: &Path) -> Command {
 fn run_command_with_args<S>(command_name: S, args: &[String])
     where S: AsRef<std::ffi::OsStr> + Copy
 {
+    let c = cc::Build::new();
     let mut cmd = Command::new(command_name);
+    let _ = cmd.env("CC", c.get_compiler().path().as_os_str());
     let _ = cmd.args(args);
     run_command(cmd)
 }

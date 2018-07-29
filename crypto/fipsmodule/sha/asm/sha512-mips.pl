@@ -45,15 +45,7 @@
 # ($s0,$s1,$s2,$s3,$s4,$s5,$s6,$s7)=map("\$$_",(16..23));
 # ($gp,$sp,$fp,$ra)=map("\$$_",(28..31));
 #
-# $flavour = shift; # supported flavours are o32,n32,64,nubi32,nubi64
-$flavour = "64";
-
-# if ($flavour =~ /linux64/i) {
-# 	$flavour = "64";
-# }
-# if ($flavour =~ /linux32/i) {
-# 	$flavour = "o32";
-# }
+$flavour = shift; # supported flavours are o32,n32,64,nubi32,nubi64
 
 if ($flavour =~ /64/i) {
 	$LA="dla";
@@ -76,20 +68,15 @@ if ($flavour =~ /64|n32/i) {
 	$PTR_SLL="sll";
 	$SZREG=4;
 }
-
-print "PTRSLL $PTR_SLL";
-
 $pf = ($flavour =~ /nubi/i) ? $t0 : $t2;
 #
 # <appro@openssl.org>
 #
 ######################################################################
 
-# $big_endian=(`echo MIPSEL | $ENV{CC} -E -P -`=~/MIPSEL/)?1:0;
-$big_endian=1;
+$big_endian=(`echo MIPSEL | $ENV{CC} -E -P -`=~/MIPSEL/)?1:0;
 
-for (@ARGV) {	$output=$_ if (/^\/?\w[\/?\w\-]*\.\w+$/);	}
-# print "foo $output bar";
+for (@ARGV) {	$output=$_ if (/^\/\w[\w\-\/]*\.\w+$/);	}
 open STDOUT,">$output";
 
 if (!defined($big_endian)) { $big_endian=(unpack('L',pack('N',1))==1); }
