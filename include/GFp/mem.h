@@ -85,6 +85,9 @@ extern "C" {
 // non-zero.
 OPENSSL_EXPORT int GFp_memcmp(const uint8_t *a, const uint8_t *b, size_t len);
 
+#define OPENSSL_cleanse(ptr, len) do { memset(ptr, 0, len); } while (0)
+#define OPENSSL_memcpy(dest, src, len) memcpy(dest, src, len)
+#define OPENSSL_memset(dest, src, len) memset(dest, src, len)
 
 #if defined(__cplusplus)
 }  // extern C
