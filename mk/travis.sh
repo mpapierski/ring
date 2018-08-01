@@ -84,11 +84,13 @@ if [[ ! "$TARGET_X" =~ "x86_64-" ]]; then
   fi
 fi
 
-if [[ ! -z "${CC_X-}" ]]; then
-  export CC=$CC_X
-  $CC --version
-else
-  cc --version
+if [[ "$CARGO" = 'cargo' ]]; then
+  if [[ ! -z "${CC_X-}" ]]; then
+    export CC=$CC_X
+    $CC --version
+  else
+    cc --version
+  fi
 fi
 
 cargo version
