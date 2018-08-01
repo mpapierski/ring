@@ -36,7 +36,6 @@ arm-unknown-linux-gnueabihf)
   export QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf
   ;;
 mips-unknown-linux-gnu)
-  sudo cargo install cross
   export QEMU_LD_PREFIX=/usr/mips-linux-gnu/
   ;;
 mipsel-unknown-linux-gnu)
