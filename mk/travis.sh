@@ -19,6 +19,15 @@ IFS=$'\n\t'
 
 printenv
 
+if [[ "$TARGET_X" = *"mips"* ]]; then
+  # Use cross on mips since trusty on travis doesn't have gcc-mips
+  cargo install cross
+  CARGO="cross"
+else
+  # On other targets we can use `cargo`
+  CARGO="cargo"
+fi
+
 case $TARGET_X in
 aarch64-unknown-linux-gnu)
   export QEMU_LD_PREFIX=/usr/aarch64-linux-gnu
@@ -27,6 +36,7 @@ arm-unknown-linux-gnueabihf)
   export QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf
   ;;
 mips-unknown-linux-gnu)
+  sudo cargo install cross
   export QEMU_LD_PREFIX=/usr/mips-linux-gnu/
   ;;
 mipsel-unknown-linux-gnu)
@@ -93,13 +103,13 @@ fi
 
 case $TARGET_X in
 armv7-linux-androideabi)
-  cargo test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
+  $CARGO test -vv -j2 --no-run ${mode-} ${FEATURES_X-} --target=$TARGET_X
   # TODO: There used to be some logic for running the tests here using the
   # Android emulator. That was removed because something broke this. See
   # https://github.com/briansmith/ring/issues/603.
   ;;
 *)
-  cargo test -vv -j2 ${mode-} ${FEATURES_X-} --target=$TARGET_X
+  $CARGO test -vv -j2 ${mode-} ${FEATURES_X-} --target=$TARGET_X
   ;;
 esac
 
@@ -109,12 +119,12 @@ if [[ "$KCOV" == "1" ]]; then
   # as a percentage of source code. Thus, any code that gets discarded by the
   # linker due to lack of usage isn't counted at all. Thus, we have to re-link
   # with "-C link-dead-code" to get accurate code coverage reports.
-  # Alternatively, we could link pass "-C link-dead-code" in the "cargo test"
-  # step above, but then "cargo test" we wouldn't be testing the configuration
+  # Alternatively, we could link pass "-C link-dead-code" in the "$CARGO test"
+  # step above, but then "$CARGO test" we wouldn't be testing the configuration
   # we expect people to use in production.
-  cargo clean
+  $CARGO clean
   RUSTFLAGS="-C link-dead-code" \
-    cargo test -vv --no-run -j2  ${mode-} ${FEATURES_X-} --target=$TARGET_X
+    $CARGO test -vv --no-run -j2  ${mode-} ${FEATURES_X-} --target=$TARGET_X
   mk/travis-install-kcov.sh
   for test_exe in `find target/$TARGET_X/debug -maxdepth 1 -executable -type f`; do
     ${HOME}/kcov-${TARGET_X}/bin/kcov \
@@ -127,10 +137,10 @@ if [[ "$KCOV" == "1" ]]; then
   done
 fi
 
-# Verify that `cargo build`, independent from `cargo test`, works; i.e. verify
+# Verify that `$CARGO build`, independent from `$CARGO test`, works; i.e. verify
 # that non-test builds aren't trying to use test-only features. For platforms
 # for which we don't run tests, this is the only place we even verify that the
 # code builds.
-cargo build -vv -j2 ${mode-} ${FEATURES_X-} --target=$TARGET_X
+$CARGO build -vv -j2 ${mode-} ${FEATURES_X-} --target=$TARGET_X
 
 echo end of mk/travis.sh

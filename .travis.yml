@@ -488,6 +488,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -499,6 +501,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -510,6 +514,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -521,6 +527,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -532,6 +540,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -543,6 +553,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -554,6 +566,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -565,6 +579,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -576,6 +592,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -587,6 +605,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -598,6 +618,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -609,6 +631,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -620,6 +644,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -631,6 +657,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -642,6 +670,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -653,6 +683,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: stable
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1084,6 +1116,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1095,6 +1129,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1106,6 +1142,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1117,6 +1155,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1128,6 +1168,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1139,6 +1181,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1150,6 +1194,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1161,6 +1207,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1172,6 +1220,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1183,6 +1233,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1194,6 +1246,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1205,6 +1259,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1216,6 +1272,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1227,6 +1285,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1238,6 +1298,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1249,6 +1311,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: nightly
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1262,6 +1326,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1273,6 +1339,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1284,6 +1352,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1295,6 +1365,8 @@ matrix:
     - env: TARGET_X=mips64-unknown-linux-gnuabi64 CC_X=mips64-linux-gnuabi64-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1306,6 +1378,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1317,6 +1391,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1328,6 +1404,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1339,6 +1417,8 @@ matrix:
     - env: TARGET_X=mips64el-unknown-linux-gnuabi64 CC_X=mips64el-linux-gnuabi64-gcc  FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1350,6 +1430,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1361,6 +1443,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1372,6 +1456,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1383,6 +1469,8 @@ matrix:
     - env: TARGET_X=mipsel-unknown-linux-gnu CC_X=mipsel-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1394,6 +1482,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1405,6 +1495,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X= MODE_X=DEBUG KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1416,6 +1508,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X=--features=rsa_signing MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
@@ -1427,6 +1521,8 @@ matrix:
     - env: TARGET_X=mips-unknown-linux-gnu CC_X=mips-linux-gnu-gcc FEATURES_X= MODE_X=RELWITHDEBINFO KCOV=0
       rust: beta
       os: linux
+      services:
+        - docker
       addons:
         apt:
           packages:
