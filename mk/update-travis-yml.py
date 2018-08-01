@@ -241,13 +241,13 @@ def get_linux_packages_to_install(target, compiler, arch, kcov):
         packages += ["gcc-mips64-linux-gnuabi64",
                      "libc6-dev-mips64-cross"]
     elif arch == "mips64el":
-        packages += ["gcc-mips64el-linux-gnuabi64"
+        packages += ["gcc-mips64el-linux-gnuabi64",
                      "libc6-dev-mips64el-cross"]
     elif arch == "mips":
-        packages += ["gcc-mips-linux-gnu"
+        packages += ["gcc-mips-linux-gnu",
                      "libc6-dev-mips-cross"]
     elif arch == "mipsel":
-        packages += ["gcc-mipsel-linux-gnu"
+        packages += ["gcc-mipsel-linux-gnu",
                      "libc6-dev-mipsel-cross"]
     elif arch not in ["aarch64", "arm", "armv7"]:
         raise ValueError("unexpected arch: %s" % arch)
