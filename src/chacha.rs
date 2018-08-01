@@ -16,6 +16,7 @@
 use c;
 use core;
 use polyfill::slice::u32_from_le_u8;
+// use polyfill::slice::u32_from_u8;
 
 pub type Key = [u32; KEY_LEN_IN_BYTES / 4];
 
@@ -25,6 +26,22 @@ pub fn key_from_bytes(key_bytes: &[u8; KEY_LEN_IN_BYTES]) -> Key {
         *key_u32 = u32_from_le_u8(slice_as_array_ref!(key_u8_4, 4).unwrap());
     }
     key
+}
+
+#[test]
+pub fn test_chacha_key_from_bytes() {
+    let key = key_from_bytes(&[1,2,3,4,6,7,8,9,0,
+                              1,2,3,4,6,7,8,9,0,
+                              1,2,3,4,6,7,8,9,0,
+                              1,2,2,3,4]);
+    assert_eq!(key[0], 67305985);
+    assert_eq!(key[1], 151521030);
+    assert_eq!(key[2], 50462976);
+    assert_eq!(key[3], 134678020);
+    assert_eq!(key[4], 33619977);
+    assert_eq!(key[5], 117834755);
+    assert_eq!(key[6], 16779528);
+    assert_eq!(key[7], 67305986);
 }
 
 #[inline]
@@ -67,12 +84,31 @@ pub fn chacha20_xor_inner(key: &Key, counter: &Counter, input: *const u8,
 
 pub type Counter = [u32; 4];
 
+#[cfg(target_endian = "big")]
+#[inline]
+fn swap_counter_bytes(counter: u32) -> u32 {
+    counter
+}
+
+#[cfg(target_endian = "little")]
+#[inline]
+fn swap_counter_bytes(counter: u32) -> u32 {
+    counter.to_le()
+}
+
 #[inline]
 pub fn make_counter(nonce: &[u8; NONCE_LEN], counter: u32) -> Counter {
-    [counter.to_le(),
+    [swap_counter_bytes(counter),
      u32_from_le_u8(slice_as_array_ref!(&nonce[0..4], 4).unwrap()),
      u32_from_le_u8(slice_as_array_ref!(&nonce[4..8], 4).unwrap()),
      u32_from_le_u8(slice_as_array_ref!(&nonce[8..12], 4).unwrap())]
+}
+
+#[test]
+pub fn test_make_counter() {
+    let counter = make_counter(&[1,2,3,4,5,6,7,8,9,10,11,12], 123456789u32);
+    assert_eq!(counter, [123456789, 67305985, 134678021, 202050057]);
+
 }
 
 extern {

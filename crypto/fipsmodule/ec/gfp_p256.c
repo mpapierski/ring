@@ -31,7 +31,7 @@ void GFp_p256_scalar_sqr_mont(ScalarMont r, const ScalarMont a);
 void GFp_p256_scalar_sqr_rep_mont(ScalarMont r, const ScalarMont a, int rep);
 
 
-#if defined(OPENSSL_ARM) || defined(OPENSSL_X86)
+#if defined(OPENSSL_ARM) || defined(OPENSSL_X86) || defined(OPENSSL_MIPS)
 void GFp_nistz256_sqr_mont(Elem r, const Elem a) {
   /* XXX: Inefficient. TODO: optimize with dedicated squaring routine. */
   GFp_nistz256_mul_mont(r, a, a);

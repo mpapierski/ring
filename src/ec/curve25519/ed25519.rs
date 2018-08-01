@@ -13,6 +13,7 @@
 // CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 //! EdDSA Signatures.
+#![cfg(not(feature = "ec"))]
 
 use core;
 use {der, digest, error, pkcs8, private, rand, signature, signature_impl};

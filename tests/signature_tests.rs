@@ -1,15 +1,17 @@
-// extern crate ring;
+#![cfg(feature = "ec")]
 
-// use ring::signature;
-// use ring::test;
+extern crate ring;
 
-// #[test]
-// fn signature_impl_test() {
-//     test::compile_time_assert_debug::<signature::KeyPair>();
-//     test::compile_time_assert_send::<signature::KeyPair>();
+use ring::signature;
+use ring::test;
 
-//     test::compile_time_assert_clone::<signature::Signature>();
-//     test::compile_time_assert_copy::<signature::Signature>();
-//     test::compile_time_assert_send::<signature::Signature>();
-//     test::compile_time_assert_sync::<signature::Signature>();
-// }
+#[test]
+fn signature_impl_test() {
+    test::compile_time_assert_debug::<signature::KeyPair>();
+    test::compile_time_assert_send::<signature::KeyPair>();
+
+    test::compile_time_assert_clone::<signature::Signature>();
+    test::compile_time_assert_copy::<signature::Signature>();
+    test::compile_time_assert_send::<signature::Signature>();
+    test::compile_time_assert_sync::<signature::Signature>();
+}

@@ -46,7 +46,7 @@ fn chacha20_poly1305_seal(ctx: &[u64; aead::KEY_CTX_BUF_ELEMS],
     let mut counter = chacha::make_counter(nonce, 1);
     chacha::chacha20_xor_in_place(&chacha20_key, &counter, in_out);
     counter[0] = 0;
-    aead_poly1305(tag_out, chacha20_key, &counter, ad, in_out);
+    aead_poly1305(tag_out, &chacha20_key, &counter, ad, in_out);
     Ok(())
 }
 
@@ -59,7 +59,7 @@ fn chacha20_poly1305_open(ctx: &[u64; aead::KEY_CTX_BUF_ELEMS],
     let mut counter = chacha::make_counter(nonce, 0);
     {
         let ciphertext = &in_out[in_prefix_len..];
-        aead_poly1305(tag_out, chacha20_key, &counter, ad, ciphertext);
+        aead_poly1305(tag_out, &chacha20_key, &counter, ad, ciphertext);
     }
     counter[0] = 1;
     chacha::chacha20_xor_overlapping(&chacha20_key, &counter, in_out,
@@ -67,11 +67,69 @@ fn chacha20_poly1305_open(ctx: &[u64; aead::KEY_CTX_BUF_ELEMS],
     Ok(())
 }
 
+#[cfg(target_endian = "little")]
 fn ctx_as_key(ctx: &[u64; aead::KEY_CTX_BUF_ELEMS])
-              -> Result<&chacha::Key, error::Unspecified> {
-    slice_as_array_ref!(
+              -> Result<chacha::Key, error::Unspecified> {
+    Ok(*slice_as_array_ref!(
         &polyfill::slice::u64_as_u32(ctx)[..(chacha::KEY_LEN_IN_BYTES / 4)],
-        chacha::KEY_LEN_IN_BYTES / 4)
+        chacha::KEY_LEN_IN_BYTES / 4).unwrap())
+
+}
+
+#[cfg(target_endian = "big")]
+fn ctx_as_key(ctx: &[u64; aead::KEY_CTX_BUF_ELEMS])
+              -> Result<chacha::Key, error::Unspecified> {
+
+    // let slice = &ctx[..(chacha::KEY_LEN_IN_BYTES / 8)];
+
+    // let key : slice_as_array_ref!(
+    //     &polyfill::slice::u64_as_u32(ctx)[..(chacha::KEY_LEN_IN_BYTES / 4)],
+    //     chacha::KEY_LEN_IN_BYTES / 4);//.unwrap();
+    // let mut key : chacha::Key = [69u32 ; 8];
+    // let slice = &polyfill::slice::u64_as_u32(ctx)[..(chacha::KEY_LEN_IN_BYTES / 4)];
+
+    // let mut slice = unsafe {
+    //     &*(slice.as_ptr() as *const chacha::Key)
+    // };
+    // slice[0] = 42;
+    // // let mut key : chacha::Key = [0u32; 8];
+
+    // let mut i = 0;
+    // for (i, value) in ctx.iter().enumerate() {
+    //     buf[i] = value.swap_bytes();
+    // }
+    let mut buf = [0u64; aead::KEY_CTX_BUF_ELEMS];
+    for (i, value) in ctx.iter().enumerate() {
+        buf[i] = value.to_le();
+    }
+
+    let slice2 = &polyfill::slice::u64_as_u32(&buf[..])[..(chacha::KEY_LEN_IN_BYTES / 4)];
+    let mut buf2 = [0u32; 8];
+    for (i, value) in slice2.iter().enumerate() {
+        buf2[i] = value.to_le();
+    }
+    Ok(buf2)
+    // let slice = &polyfill::slice::u64_as_u32(&ctx[..])[..(chacha::KEY_LEN_IN_BYTES / 4)];
+    // println!("slice={:?}", slice);
+
+    // for (i, value) in slice.iter().enumerate() {
+    //     buf[i] = value.to_be();
+    // }
+
+    
+    // Ok(buf)
+
+    // Ok(*slice_as_array_ref!(
+    //     &polyfill::slice::u64_as_u32(&buf)[..(chacha::KEY_LEN_IN_BYTES / 4)],
+    //     chacha::KEY_LEN_IN_BYTES / 4).unwrap())
+}
+
+#[test]
+pub fn chacha20_poly1305_test_ctx_as_key() {
+    let key = ctx_as_key(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]);
+    assert!(key.is_ok());
+    let key = key.unwrap();
+    assert_eq!(key, [0, 0, 1, 0, 2, 0, 3, 0]);
 }
 
 fn aead_poly1305(tag_out: &mut [u8; aead::TAG_LEN], chacha20_key: &chacha::Key,
@@ -82,8 +140,10 @@ fn aead_poly1305(tag_out: &mut [u8; aead::TAG_LEN], chacha20_key: &chacha::Key,
     poly1305_update_padded_16(&mut ctx, ad);
     poly1305_update_padded_16(&mut ctx, ciphertext);
     let lengths =
-        [polyfill::u64_from_usize(ad.len()).to_le(),
-         polyfill::u64_from_usize(ciphertext.len()).to_le()];
+        [
+            polyfill::u64_from_usize(ad.len()).to_le(),
+            polyfill::u64_from_usize(ciphertext.len()).to_le()
+        ];
     ctx.update(polyfill::slice::u64_as_u8(&lengths));
     ctx.sign(tag_out);
 }

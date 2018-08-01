@@ -20,8 +20,8 @@ use core;
 // A better name for the `&*` idiom for removing the mutability from a
 // reference.
 #[cfg(feature = "use_heap")]
+#[allow(dead_code)]
 #[inline(always)]
-#[cfg(not(any(target_arch = "mips", target_arch = "mips64")))]
 pub fn ref_from_mut_ref<'a, T: ?Sized>(x: &'a mut T) -> &'a T { x }
 
 #[inline(always)]
@@ -56,6 +56,14 @@ pub mod slice {
         u32::from(buffer[1]) << 8 |
         u32::from(buffer[2]) << 16 |
         u32::from(buffer[3]) << 24
+    }
+
+    #[inline(always)]
+    #[allow(dead_code)]
+    pub fn u32_from_u8(buffer: &[u8; 4]) -> u32 {
+        let res : &u32 = unsafe { &*(buffer.as_ptr() as *const u32) };
+        let res = *res;
+        res
     }
 
     #[inline(always)]

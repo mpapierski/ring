@@ -76,11 +76,6 @@ const RING_SRCS: &'static [(&'static [&'static str], &'static str)] = &[
     (&[NEVER], "crypto/fipsmodule/modes/polyval.c"),
     (&[], "third_party/fiat/curve25519.c"),
 
-    // For some reason PerlAsm doesn't generate proper MIPS/MIPSEL code, so we use
-    // BoringSSL's implementation.
-    (&[MIPS, MIPSEL], "crypto/fipsmodule/sha/sha512.c"),
-    (&[MIPS, MIPSEL], "crypto/fipsmodule/sha/sha256.c"),
-
     (&[X86_64, X86], "crypto/cpu-intel.c"),
 
     (&[X86], "crypto/fipsmodule/aes/asm/aes-586.pl"),
@@ -130,7 +125,17 @@ const RING_SRCS: &'static [(&'static [&'static str], &'static str)] = &[
     (&[AARCH64], "crypto/poly1305/asm/poly1305-armv8.pl"),
     (&[AARCH64], SHA512_ARMV8),
 
+
+    (&[MIPS, MIPS64, MIPSEL], "crypto/chacha/chacha_enc.c"),
+    // (&[MIPS, MIPS64, MIPSEL], "crypto/fipsmodule/bn/asm/mips-mont.pl"),
+    (&[MIPS64], "crypto/poly1305/asm/poly1305-mips.pl"),
+    (&[MIPS, MIPSEL], "crypto/poly1305/poly1305.c"),
     // (&[MIPS], "crypto/fipsmodule/aes/asm/aes-mips.pl"),
+    // For some reason PerlAsm couldn't generate proper MIPS/MIPSEL code, so we use
+    // BoringSSL's implementation.
+    (&[MIPS, MIPSEL], "crypto/fipsmodule/sha/sha512.c"),
+    (&[MIPS, MIPSEL], "crypto/fipsmodule/sha/sha256.c"),
+    // PerlAsm code works for MIPS64
     (&[MIPS64], SHA512_MIPS),
 ];
 

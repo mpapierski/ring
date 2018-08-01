@@ -14,6 +14,7 @@
 
 //! This module exists to make `signature_from_bytes()` public within the crate
 //! but private outside of the crate.
+#![cfg(feature = "ec")]
 
 use ec;
 

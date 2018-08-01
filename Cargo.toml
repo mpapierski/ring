@@ -299,6 +299,7 @@ rsa_signing = ["use_heap"]
 slow_tests = []
 test_logging = []
 use_heap = []
+ec = []
 
 [package.metadata.docs.rs]
 features = [ "rsa_signing" ]
@@ -320,3 +321,10 @@ rpath = false
 lto = true
 debug-assertions = false
 codegen-units = 1
+
+[profile.debug]
+opt-level = 0
+debug = true
+rpath = true
+lto = false
+debug-assertions = true

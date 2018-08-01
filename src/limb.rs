@@ -47,6 +47,7 @@ pub const LIMB_BYTES: usize = (LIMB_BITS + 7) / 8;
 
 #[cfg(all(any(test, feature = "rsa_signing"), target_pointer_width = "64"))]
 #[inline]
+#[allow(dead_code)]
 pub fn limbs_as_bytes<'a>(src: &'a [Limb]) -> &'a [u8] {
     use polyfill;
     polyfill::slice::u64_as_u8(src)
@@ -54,24 +55,28 @@ pub fn limbs_as_bytes<'a>(src: &'a [Limb]) -> &'a [u8] {
 
 #[cfg(all(any(test, feature = "rsa_signing"), target_pointer_width = "32"))]
 #[inline]
+#[allow(dead_code)]
 pub fn limbs_as_bytes<'a>(src: &'a [Limb]) -> &'a [u8] {
     use polyfill;
     polyfill::slice::u32_as_u8(src)
 }
 
 #[inline]
+#[allow(dead_code)]
 pub fn limbs_less_than_limbs_consttime(a: &[Limb], b: &[Limb]) -> LimbMask {
     assert_eq!(a.len(), b.len());
     unsafe { LIMBS_less_than(a.as_ptr(), b.as_ptr(), b.len()) }
 }
 
 #[inline]
+#[allow(dead_code)]
 pub fn limbs_less_than_limbs_vartime(a: &[Limb], b: &[Limb]) -> bool {
     limbs_less_than_limbs_consttime(a, b) == LimbMask::True
 }
 
 #[inline]
 #[cfg(feature = "use_heap")]
+#[allow(dead_code)]
 pub fn limbs_less_than_limb_constant_time(a: &[Limb], b: Limb) -> LimbMask {
     unsafe { LIMBS_less_than_limb(a.as_ptr(), b, a.len()) }
 }
@@ -83,6 +88,7 @@ pub fn limbs_are_zero_constant_time(limbs: &[Limb]) -> LimbMask {
 
 #[cfg(feature = "use_heap")]
 #[inline]
+#[allow(dead_code)]
 pub fn limbs_are_even_constant_time(limbs: &[Limb]) -> LimbMask {
     unsafe { LIMBS_are_even(limbs.as_ptr(), limbs.len()) }
 }
@@ -101,6 +107,7 @@ pub fn limbs_reduce_once_constant_time(r: &mut [Limb], m: &[Limb]) {
 }
 
 #[derive(Clone, Copy, PartialEq)]
+#[allow(dead_code)]
 pub enum AllowZero {
     No,
     Yes
@@ -112,6 +119,7 @@ pub enum AllowZero {
 /// constant time so that the result is in the range [0, m) if `allow_zero` is
 /// `AllowZero::Yes`, or [1, m) if `allow_zero` is `AllowZero::No`. `result` is
 /// padded with zeros to its length.
+#[allow(dead_code)]
 pub fn parse_big_endian_in_range_partially_reduced_and_pad_consttime(
         input: untrusted::Input, allow_zero: AllowZero, m: &[Limb],
         result: &mut [Limb]) -> Result<(), error::Unspecified> {
@@ -133,6 +141,7 @@ pub fn parse_big_endian_in_range_partially_reduced_and_pad_consttime(
 /// the value is actually in range. In other words, this won't leak anything
 /// about a valid value, but it might leak small amounts of information about an
 /// invalid value (which constraint it failed).
+#[allow(dead_code)]
 pub fn parse_big_endian_in_range_and_pad_consttime(
         input: untrusted::Input, allow_zero: AllowZero, max_exclusive: &[Limb],
         result: &mut [Limb]) -> Result<(), error::Unspecified> {
@@ -194,6 +203,7 @@ pub fn parse_big_endian_and_pad_consttime(
     })
 }
 
+#[allow(dead_code)]
 pub fn big_endian_from_limbs(limbs: &[Limb], out: &mut [u8]) {
     let num_limbs = limbs.len();
     let out_len = out.len();
@@ -210,6 +220,7 @@ pub fn big_endian_from_limbs(limbs: &[Limb], out: &mut [u8]) {
 
 extern {
     #[cfg(feature = "use_heap")]
+    #[allow(dead_code)]
     fn LIMBS_are_even(a: *const Limb, num_limbs: c::size_t) -> LimbMask;
     fn LIMBS_are_zero(a: *const Limb, num_limbs: c::size_t) -> LimbMask;
     #[cfg(any(test, feature = "rsa_signing"))]
@@ -218,8 +229,10 @@ extern {
     fn LIMBS_less_than(a: *const Limb, b: *const Limb, num_limbs: c::size_t)
                        -> LimbMask;
     #[cfg(feature = "use_heap")]
+    #[allow(dead_code)]
     fn LIMBS_less_than_limb(a: *const Limb, b: Limb, num_limbs: c::size_t)
                             -> LimbMask;
+    #[allow(dead_code)]
     fn LIMBS_reduce_once(r: *mut Limb, m: *const Limb, num_limbs: c::size_t);
 }
 
