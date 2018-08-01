@@ -21,7 +21,7 @@ printenv
 
 if [[ "$TARGET_X" = *"mips"* ]]; then
   # Use cross on mips since trusty on travis doesn't have gcc-mips
-  [ ! command -v cross ] && cargo install cross
+  ! command -v cross 1>/dev/null && cargo install cross
   CARGO="cross"
 else
   # On other targets we can use `cargo`
