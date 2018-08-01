@@ -26,6 +26,18 @@ aarch64-unknown-linux-gnu)
 arm-unknown-linux-gnueabihf)
   export QEMU_LD_PREFIX=/usr/arm-linux-gnueabihf
   ;;
+mips-unknown-linux-gnu)
+  export QEMU_LD_PREFIX=/usr/mips-linux-gnu/
+  ;;
+mipsel-unknown-linux-gnu)
+  export QEMU_LD_PREFIX=/usr/mipsel-linux-gnu/
+  ;;
+mips64-unknown-linux-gnuabi64)
+  export QEMU_LD_PREFIX=/usr/mips64-linux-gnuabi64/
+  ;;
+mips64el-unknown-linux-gnuabi64)
+  export QEMU_LD_PREFIX=/usr/mips64el-linux-gnuabi64/
+  ;;
 armv7-linux-androideabi)
   # install the android sdk/ndk
   mk/travis-install-android.sh

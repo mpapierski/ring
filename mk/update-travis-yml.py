@@ -47,6 +47,10 @@ compilers = {
     "aarch64-unknown-linux-gnu" : [ "aarch64-linux-gnu-gcc" ],
     "armv7-linux-androideabi" : [ "arm-linux-androideabi-clang" ],
     "arm-unknown-linux-gnueabihf" : [ "arm-linux-gnueabihf-gcc" ],
+    "mips64-unknown-linux-gnuabi64" : [ "mips64-linux-gnuabi64-gcc" ],
+    "mips64el-unknown-linux-gnuabi64" : [ "mips64el-linux-gnuabi64-gcc "],
+    "mipsel-unknown-linux-gnu" : [ "mipsel-linux-gnu-gcc" ],
+    "mips-unknown-linux-gnu" : [ "mips-linux-gnu-gcc" ],
     "i686-unknown-linux-gnu" : linux_compilers,
     "x86_64-unknown-linux-gnu" : linux_compilers,
     "x86_64-apple-darwin" : osx_compilers,
@@ -79,6 +83,10 @@ targets = {
         "aarch64-unknown-linux-gnu",
         "i686-unknown-linux-gnu",
         "arm-unknown-linux-gnueabihf",
+        "mips64-unknown-linux-gnuabi64",
+        "mips64el-unknown-linux-gnuabi64",
+        "mipsel-unknown-linux-gnu",
+        "mips-unknown-linux-gnu"
     ],
 }
 
@@ -229,6 +237,18 @@ def get_linux_packages_to_install(target, compiler, arch, kcov):
                          "libelf-dev",
                          "libdw-dev",
                          "binutils-dev"]
+    elif arch == "mips64":
+        packages += ["gcc-mips64-linux-gnuabi64",
+                     "libc6-dev-mips64-cross"]
+    elif arch == "mips64el":
+        packages += ["gcc-mips64el-linux-gnuabi64"
+                     "libc6-dev-mips64el-cross"]
+    elif arch == "mips":
+        packages += ["gcc-mips-linux-gnu"
+                     "libc6-dev-mips-cross"]
+    elif arch == "mipsel":
+        packages += ["gcc-mipsel-linux-gnu"
+                     "libc6-dev-mipsel-cross"]
     elif arch not in ["aarch64", "arm", "armv7"]:
         raise ValueError("unexpected arch: %s" % arch)
 
