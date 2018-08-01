@@ -124,7 +124,9 @@ extern "C" {
 
 
 typedef struct bignum_st BIGNUM;
-
+typedef struct sha256_state_st SHA256_CTX;
+typedef struct sha512_state_st SHA512_CTX;
+typedef struct sha_state_st SHA_CTX;
 
 #if defined(__cplusplus)
 }  // extern C

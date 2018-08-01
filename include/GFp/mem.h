@@ -84,7 +84,9 @@ extern "C" {
 // defined order as the return value when a != b is undefined, other than to be
 // non-zero.
 OPENSSL_EXPORT int GFp_memcmp(const uint8_t *a, const uint8_t *b, size_t len);
-
+// OPENSSL_cleanse zeros out |len| bytes of memory at |ptr|. This is similar to
+// |memset_s| from C11.
+OPENSSL_EXPORT void GFp_cleanse(void *ptr, size_t len);
 
 #if defined(__cplusplus)
 }  // extern C

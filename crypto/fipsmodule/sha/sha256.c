@@ -54,11 +54,11 @@
  * copied and put under another distribution licence
  * [including the GNU Public Licence.] */
 
-#include <openssl/sha.h>
+#include <GFp/sha.h>
 
 #include <string.h>
 
-#include <openssl/mem.h>
+#include <GFp/mem.h>
 
 #include "../../internal.h"
 
@@ -102,7 +102,7 @@ uint8_t *SHA224(const uint8_t *data, size_t len, uint8_t *out) {
   SHA224_Init(&ctx);
   SHA224_Update(&ctx, data, len);
   SHA224_Final(out, &ctx);
-  OPENSSL_cleanse(&ctx, sizeof(ctx));
+  GFp_cleanse(&ctx, sizeof(ctx));
   return out;
 }
 
@@ -111,7 +111,7 @@ uint8_t *SHA256(const uint8_t *data, size_t len, uint8_t *out) {
   SHA256_Init(&ctx);
   SHA256_Update(&ctx, data, len);
   SHA256_Final(out, &ctx);
-  OPENSSL_cleanse(&ctx, sizeof(ctx));
+  GFp_cleanse(&ctx, sizeof(ctx));
   return out;
 }
 

@@ -46,7 +46,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * ==================================================================== */
 
-#include <openssl/base.h>
+#include <GFp/base.h>
 
 #include <assert.h>
 
@@ -192,16 +192,16 @@ int HASH_UPDATE(HASH_CTX *c, const void *data_, size_t len) {
   size_t n = c->num;
   if (n != 0) {
     if (len >= HASH_CBLOCK || len + n >= HASH_CBLOCK) {
-      OPENSSL_memcpy(c->data + n, data, HASH_CBLOCK - n);
+      GFp_memcpy(c->data + n, data, HASH_CBLOCK - n);
       HASH_BLOCK_DATA_ORDER(c->h, c->data, 1);
       n = HASH_CBLOCK - n;
       data += n;
       len -= n;
       c->num = 0;
       // Keep |c->data| zeroed when unused.
-      OPENSSL_memset(c->data, 0, HASH_CBLOCK);
+      GFp_memset(c->data, 0, HASH_CBLOCK);
     } else {
-      OPENSSL_memcpy(c->data + n, data, len);
+      GFp_memcpy(c->data + n, data, len);
       c->num += (unsigned)len;
       return 1;
     }
@@ -217,7 +217,7 @@ int HASH_UPDATE(HASH_CTX *c, const void *data_, size_t len) {
 
   if (len != 0) {
     c->num = (unsigned)len;
-    OPENSSL_memcpy(c->data, data, len);
+    GFp_memcpy(c->data, data, len);
   }
   return 1;
 }
@@ -238,11 +238,11 @@ int HASH_FINAL(uint8_t *md, HASH_CTX *c) {
 
   // Fill the block with zeros if there isn't room for a 64-bit length.
   if (n > (HASH_CBLOCK - 8)) {
-    OPENSSL_memset(c->data + n, 0, HASH_CBLOCK - n);
+    GFp_memset(c->data + n, 0, HASH_CBLOCK - n);
     n = 0;
     HASH_BLOCK_DATA_ORDER(c->h, c->data, 1);
   }
-  OPENSSL_memset(c->data + n, 0, HASH_CBLOCK - 8 - n);
+  GFp_memset(c->data + n, 0, HASH_CBLOCK - 8 - n);
 
   // Append a 64-bit length to the block and process it.
   uint8_t *p = c->data + HASH_CBLOCK - 8;
@@ -256,7 +256,7 @@ int HASH_FINAL(uint8_t *md, HASH_CTX *c) {
   assert(p == c->data + HASH_CBLOCK);
   HASH_BLOCK_DATA_ORDER(c->h, c->data, 1);
   c->num = 0;
-  OPENSSL_memset(c->data, 0, HASH_CBLOCK);
+  GFp_memset(c->data, 0, HASH_CBLOCK);
 
   HASH_MAKE_STRING(c, md);
   return 1;

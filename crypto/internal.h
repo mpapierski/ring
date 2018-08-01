@@ -111,9 +111,7 @@
 
 #include <assert.h>
 
-#if defined(__clang__) || defined(_MSC_VER)
 #include <string.h>
-#endif
 
 #include <stddef.h>
 
@@ -376,6 +374,28 @@ static inline uint64_t from_be_u64(uint64_t x) {
   return x;
 }
 
+static inline void *GFp_memset(void *dst, int c, size_t n) {
+  if (n == 0) {
+    return dst;
+  }
+  return memset(dst, c, n);
+}
+
+static inline void *GFp_memcpy(void *dst, const void *src, size_t n) {
+  if (n == 0) {
+    return dst;
+  }
+
+  return memcpy(dst, src, n);
+}
+
+static inline void *OPENSSL_memset(void *dst, int c, size_t n) {
+  if (n == 0) {
+    return dst;
+  }
+
+  return memset(dst, c, n);
+}
 
 #if defined(__cplusplus)
 }  // extern C
