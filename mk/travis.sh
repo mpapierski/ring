@@ -21,7 +21,7 @@ printenv
 
 if [[ "$TARGET_X" = *"mips"* ]]; then
   # Use cross on mips since trusty on travis doesn't have gcc-mips
-  cargo install cross
+  [ ! command -v cross ] && cargo install cross
   CARGO="cross"
 else
   # On other targets we can use `cargo`
@@ -77,7 +77,7 @@ if [[ ! "$TARGET_X" =~ "x86_64-" ]]; then
   # $CC_X, that's not the right version. The symptom is a linker error
   # where it fails to find -lgcc_s.
   if [[ ! -z "${CC_X-}" ]]; then
-    mkdir .cargo
+    mkdir -p .cargo
     echo "[target.$TARGET_X]" > .cargo/config
     echo "linker= \"$CC_X\"" >> .cargo/config
     cat .cargo/config
