@@ -251,9 +251,9 @@ $code.=<<___;
 #endif
 
 .align	5
-.globl	sha${label}_block_data_order
-.ent	sha${label}_block_data_order
-sha${label}_block_data_order:
+.globl	GFp_sha${label}_block_data_order
+.ent	GFp_sha${label}_block_data_order
+GFp_sha${label}_block_data_order:
 	.frame	$sp,$FRAMESIZE,$ra
 	.mask	$SAVED_REGS_MASK,-$SZREG
 	.set	noreorder
@@ -286,7 +286,7 @@ $code.=<<___;
 ___
 $code.=<<___ if ($flavour !~ /o32/i);	# non-o32 PIC-ification
 	.cplocal	$Ktbl
-	.cpsetup	$pf,$zero,sha${label}_block_data_order
+	.cpsetup	$pf,$zero,GFp_sha${label}_block_data_order
 ___
 $code.=<<___;
 	.set	reorder
@@ -377,7 +377,7 @@ ___
 $code.=<<___;
 	jr	$ra
 	$PTR_ADD $sp,$FRAMESIZE
-.end	sha${label}_block_data_order
+.end	GFp_sha${label}_block_data_order
 
 .rdata
 .align	5
@@ -447,7 +447,7 @@ $code.=<<___;
 ___
 }
 $code.=<<___;
-.asciiz	"SHA${label} for MIPS, CRYPTOGAMS by <appro\@openssl.org>"
+.asciiz	"GFp_SHA${label} for MIPS, CRYPTOGAMS by <appro\@openssl.org>"
 .align	5
 
 ___
