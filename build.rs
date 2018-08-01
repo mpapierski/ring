@@ -168,6 +168,8 @@ const RING_INCLUDES: &'static [&'static str] =
       "include/GFp/type_check.h",
       "third_party/fiat/curve25519_tables.h",
       "third_party/fiat/internal.h",
+      "crypto/fipsmodule/digest/md32_common.h",
+      "include/GFp/sha.h"
     ];
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
