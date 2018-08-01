@@ -256,9 +256,13 @@ struct sha512_state_st {
   unsigned num, md_len;
 };
 
-
 #if defined(__cplusplus)
 }  // extern C
 #endif
+
+// ring: Small shim used to export static function outside
+OPENSSL_EXPORT void GFp_sha512_block_data_order(uint64_t *state, const uint64_t *W, size_t num);
+// ring: Small shim used to export static function outside
+OPENSSL_EXPORT void GFp_sha256_block_data_order(uint32_t *state, const uint8_t *in, size_t num);
 
 #endif  // OPENSSL_HEADER_SHA_H

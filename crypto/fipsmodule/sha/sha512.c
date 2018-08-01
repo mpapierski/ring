@@ -605,3 +605,8 @@ static void sha512_block_data_order(uint64_t *state, const uint64_t *W,
 #undef ROUND_16_80
 #undef HOST_c2l
 #undef HOST_l2c
+
+// ring: Small shim to expose static function.
+void GFp_sha512_block_data_order(uint64_t *state, const uint64_t *W, size_t num) {
+  sha512_block_data_order(state, W, num);
+}

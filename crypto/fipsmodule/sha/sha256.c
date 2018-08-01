@@ -340,3 +340,8 @@ void SHA256_TransformBlocks(uint32_t state[8], const uint8_t *data,
 #undef ROUND_16_63
 #undef HOST_c2l
 #undef HOST_l2c
+
+// ring: Small shim to expose static function outside
+void GFp_sha256_block_data_order(uint32_t *state, const uint8_t *in, size_t num) {
+  sha256_block_data_order(state, in, num);
+}
