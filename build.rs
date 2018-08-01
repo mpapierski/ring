@@ -50,6 +50,9 @@ const X86: &'static str = "x86";
 const X86_64: &'static str = "x86_64";
 const AARCH64: &'static str = "aarch64";
 const ARM: &'static str = "arm";
+const MIPS: &'static str = "mips";
+const MIPS64: &'static str = "mips64";
+const MIPSEL: &'static str = "mipsel";
 const NEVER: &'static str = "Don't ever build this file.";
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
@@ -72,6 +75,11 @@ const RING_SRCS: &'static [(&'static [&'static str], &'static str)] = &[
     (&[], "crypto/fipsmodule/modes/gcm.c"),
     (&[NEVER], "crypto/fipsmodule/modes/polyval.c"),
     (&[], "third_party/fiat/curve25519.c"),
+
+    // For some reason PerlAsm doesn't generate proper MIPS/MIPSEL code, so we use
+    // BoringSSL's implementation.
+    (&[MIPS, MIPSEL], "crypto/fipsmodule/sha/sha512.c"),
+    (&[MIPS, MIPSEL], "crypto/fipsmodule/sha/sha256.c"),
 
     (&[X86_64, X86], "crypto/cpu-intel.c"),
 
@@ -121,6 +129,8 @@ const RING_SRCS: &'static [(&'static [&'static str], &'static str)] = &[
     (&[AARCH64], "crypto/fipsmodule/ec/asm/ecp_nistz256-armv8.pl"),
     (&[AARCH64], "crypto/poly1305/asm/poly1305-armv8.pl"),
     (&[AARCH64], SHA512_ARMV8),
+
+    (&[MIPS64], SHA512_MIPS),
 ];
 
 const SHA256_X86_64: &'static str = "crypto/fipsmodule/sha/asm/sha256-x86_64.pl";
@@ -128,6 +138,9 @@ const SHA512_X86_64: &'static str = "crypto/fipsmodule/sha/asm/sha512-x86_64.pl"
 
 const SHA256_ARMV8: &'static str = "crypto/fipsmodule/sha/asm/sha256-armv8.pl";
 const SHA512_ARMV8: &'static str = "crypto/fipsmodule/sha/asm/sha512-armv8.pl";
+
+const SHA256_MIPS: &'static str = "crypto/fipsmodule/sha/asm/sha256-mips.pl";
+const SHA512_MIPS: &'static str = "crypto/fipsmodule/sha/asm/sha512-mips.pl";
 
 const RING_TEST_SRCS: &'static [&'static str] = &[
     ("crypto/constant_time_test.c"),
@@ -258,6 +271,8 @@ const ASM_TARGETS:
     ("x86", None, "elf"),
     ("arm", Some("ios"), "ios32"),
     ("arm", None, "linux32"),
+    ("mips", None, "n32"),
+    ("mips64", None, "64")
 ];
 
 const WINDOWS: &'static str = "windows";
@@ -599,7 +614,9 @@ fn yasm(file: &Path, arch: &str, out_file: &Path) -> Command {
 fn run_command_with_args<S>(command_name: S, args: &[String])
     where S: AsRef<std::ffi::OsStr> + Copy
 {
+    let c = cc::Build::new();
     let mut cmd = Command::new(command_name);
+    let _ = cmd.env("CC", c.get_compiler().path().as_os_str());
     let _ = cmd.args(args);
     run_command(cmd)
 }
@@ -643,6 +660,7 @@ fn perlasm_src_dsts(out_dir: &Path, arch: &str, os: Option<&str>,
         };
         maybe_synthesize(SHA512_X86_64, SHA256_X86_64);
         maybe_synthesize(SHA512_ARMV8, SHA256_ARMV8);
+        maybe_synthesize(SHA512_MIPS, SHA256_MIPS);
     }
 
     src_dsts
