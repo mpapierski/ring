@@ -327,14 +327,19 @@ void GFp_poly1305_emit(poly1305_state *statep, uint8_t mac[16]) {
 }
 
 static void shim_GFp_poly1305_blocks(poly1305_state* state, const uint8_t* input, size_t len, int should_pad) {
+  (void)state;
+  (void)input;
+  (void)len;
+  (void)should_pad;
 }
 
 int GFp_poly1305_init_asm(poly1305_state* state, const uint8_t key[16], struct GFp_Funcs* out_func) {
   (void)state;
   (void)key;
   (void)out_func;
-  out_func->blocks_fn = &shim_GFp_poly1305_blocks;
-  out_func->emit_fn = &shim_GFp_poly1305_emit;
+  (void)shim_GFp_poly1305_blocks;
+  // out_func->blocks_fn = &shim_GFp_poly1305_blocks;
+  // out_func->emit_fn = &shim_GFp_poly1305_emit;
   return 0;
 }
 #endif  // OPENSSL_WINDOWS || !OPENSSL_X86_64
